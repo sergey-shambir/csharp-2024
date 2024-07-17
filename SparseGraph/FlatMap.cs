@@ -1,9 +1,7 @@
 ﻿namespace SparseGraph;
 
-
 public class FlatMap<K, V>
 where K : IComparable<K>
-where V : class
 {
     public struct KeyValue(K key, V value)
     {
@@ -33,7 +31,7 @@ where V : class
         {
             return items[index].value;
         }
-        return null;
+        return default;
     }
 
     public bool Contains(K key)

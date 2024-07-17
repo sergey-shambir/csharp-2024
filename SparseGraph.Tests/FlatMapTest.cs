@@ -1,5 +1,3 @@
-using SparseGraph;
-
 namespace SparseGraph.Tests;
 
 public class FlatMapTest
