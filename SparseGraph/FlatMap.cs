@@ -1,22 +1,33 @@
-﻿namespace SparseGraph;
+﻿using System.Collections;
 
-public class FlatMap<K, V>
+namespace SparseGraph;
+
+public struct KeyValue<K, V>
+(K key, V value)
 where K : IComparable<K>
 {
-    public struct KeyValue(K key, V value)
+    public K key = key;
+    public V value = value;
+
+    public readonly void Deconstruct(out K key, out V value)
     {
-        public K key = key;
-        public V value = value;
+        key = this.key;
+        value = this.value;
     }
+}
+
+public class FlatMap<K, V> : IEnumerable<KeyValue<K, V>>
+where K : IComparable<K>
+{
 
     public List<K> Keys()
     {
-        return items.Select((KeyValue kv) => kv.key).ToList();
+        return items.Select((KeyValue<K, V> kv) => kv.key).ToList();
     }
 
     public List<V> Values()
     {
-        return items.Select((KeyValue kv) => kv.value).ToList();
+        return items.Select((KeyValue<K, V> kv) => kv.value).ToList();
     }
 
     public int Size()
@@ -45,11 +56,11 @@ where K : IComparable<K>
         var index = LowerBound(key);
         if (index != items.Count && items[index].key.CompareTo(key) == 0)
         {
-            items[index] = new KeyValue(key, value);
+            items[index] = new KeyValue<K, V>(key, value);
         }
         else
         {
-            items.Insert(index, new KeyValue(key, value));
+            items.Insert(index, new KeyValue<K, V>(key, value));
         }
     }
 
@@ -60,6 +71,16 @@ where K : IComparable<K>
         {
             items.RemoveAt(index);
         }
+    }
+
+    IEnumerator<KeyValue<K, V>> IEnumerable<KeyValue<K, V>>.GetEnumerator()
+    {
+        return items.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return ((IEnumerable<KeyValue<K, V>>)this).GetEnumerator();
     }
 
     private int LowerBound(K key)
@@ -81,5 +102,5 @@ where K : IComparable<K>
         return left;
     }
 
-    private readonly List<KeyValue> items = [];
+    private readonly List<KeyValue<K, V>> items = [];
 }

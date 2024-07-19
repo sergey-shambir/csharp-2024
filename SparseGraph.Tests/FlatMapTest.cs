@@ -25,16 +25,17 @@ public class FlatMapTest
 
         Assert.True(m.Contains(7));
         Assert.True(m.Contains(10));
-        
+
         m.Delete(7);
         Assert.Equal(new int[] { 5, 10 }, m.Keys());
         Assert.Equal(new string[] { "pear", "banana" }, m.Values());
-        
+        Assert.Equal(new KeyValue<int, string>[] { new(5, "pear"), new(10, "banana") }, new List<KeyValue<int, string>>(m));
+
         m.Add(4, "orange");
         m.Add(17, "lime");
         Assert.Equal(new int[] { 4, 5, 10, 17 }, m.Keys());
         Assert.Equal(new string[] { "orange", "pear", "banana", "lime" }, m.Values());
-        
+
         Assert.True(m.Contains(4));
         Assert.Equal("orange", m.Get(4));
         Assert.True(m.Contains(17));
