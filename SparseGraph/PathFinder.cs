@@ -1,6 +1,6 @@
 namespace SparseGraph;
 
-public class GraphUtil
+public class PathFinder
 {
     public static List<double> FindDistances(SparseGraph graph, int fromVertex)
     {
