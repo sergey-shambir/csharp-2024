@@ -16,9 +16,9 @@ where K : IComparable<K>
         return items.Select((KeyValue<K, V> kv) => kv.value).ToList();
     }
 
-    public int Size()
+    public int Count
     {
-        return items.Count;
+        get => items.Count;
     }
 
     public V? Get(K key)
