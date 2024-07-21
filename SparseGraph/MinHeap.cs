@@ -11,7 +11,7 @@ where TPriority : IComparable
     {
         minHeap.Add(new TPair(value, priority));
         int index = minHeap.Count - 1;
-        Up(index);
+        HeapUp(index);
     }
 
     public (TValue, TPriority) Dequeue()
@@ -23,7 +23,7 @@ where TPriority : IComparable
         TPair result = minHeap[0];
         Swap(0, minHeap.Count - 1);
         minHeap.RemoveAt(minHeap.Count - 1);
-        Down(0);
+        HeapDown(0);
 
         return (result.value, result.priority);
     }
@@ -43,7 +43,7 @@ where TPriority : IComparable
         public TPriority priority = priority;
     }
 
-    private void Down(int i)
+    private void HeapDown(int i)
     {
         int left = 2 * i + 1;
         int right = 2 * i + 2;
@@ -59,17 +59,17 @@ where TPriority : IComparable
         if (smallest != i)
         {
             Swap(i, smallest);
-            Down(smallest);
+            HeapDown(smallest);
         }
     }
 
-    private void Up(int i)
+    private void HeapUp(int i)
     {
         int parent = (i - 1) / 2;
         if (i != 0 && Less(i, parent))
         {
             Swap(i, parent);
-            Up(parent);
+            HeapUp(parent);
         }
     }
 
